@@ -27,11 +27,12 @@
             </button>
         </div>
 
-        {{-- 새 게시물 알림 pill: 탭바 바로 아래에 떠 있는다 --}}
+        {{-- 새 게시물 알림 pill: 탭바 바로 아래에 떠 있고, 타임라인을 스크롤해 내려가면 나타난다 --}}
         <button id="new-posts-pill"
                 type="button"
                 aria-live="polite"
-                class="absolute top-full left-1/2 z-30 hidden -translate-x-1/2 translate-y-3 items-center gap-2 rounded-full bg-[#1d9bf0] py-2 pr-5 pl-4 text-[15px] font-bold text-white shadow-[0_0_16px_rgba(0,0,0,0.6)] transition hover:bg-[#1a8cd8]">
+                aria-hidden="true"
+                class="pointer-events-none absolute top-full left-1/2 z-30 flex -translate-x-1/2 -translate-y-1 items-center gap-2 rounded-full bg-[#1d9bf0] py-2 pr-5 pl-4 text-[15px] font-bold text-white opacity-0 shadow-[0_0_16px_rgba(0,0,0,0.6)] transition duration-200 ease-out hover:bg-[#1a8cd8]">
             <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 20V4"/>
                 <path d="m5 11 7-7 7 7"/>

@@ -76,14 +76,23 @@
         const pillAvatars = document.getElementById('new-posts-avatars');
         const feed = document.getElementById('feed-posts');
 
+        // pill은 타임라인을 이만큼 스크롤해 내려간 뒤에만 노출한다(px).
+        const PILL_REVEAL_OFFSET = 120;
+
+        const PILL_HIDDEN_CLASSES = ['pointer-events-none', 'opacity-0', '-translate-y-1'];
+        const PILL_SHOWN_CLASSES = ['pointer-events-auto', 'opacity-100', 'translate-y-3'];
+
         // 아직 타임라인에 넣지 않고 대기 중인 게시물들
         let pendingHtml = '';
         let pendingAuthors = [];
+        let scrolledPastReveal = window.scrollY > PILL_REVEAL_OFFSET;
 
         function renderPill() {
-            if (pendingAuthors.length === 0) {
-                pill.classList.add('hidden');
-                pill.classList.remove('flex');
+            // 대기 중인 게시물이 있어도, 위에 머물러 있는 동안에는 숨겨 둔다.
+            if (pendingAuthors.length === 0 || !scrolledPastReveal) {
+                pill.classList.remove(...PILL_SHOWN_CLASSES);
+                pill.classList.add(...PILL_HIDDEN_CLASSES);
+                pill.setAttribute('aria-hidden', 'true');
                 return;
             }
 
@@ -108,9 +117,23 @@
                 }),
             );
 
-            pill.classList.remove('hidden');
-            pill.classList.add('flex');
+            pill.classList.remove(...PILL_HIDDEN_CLASSES);
+            pill.classList.add(...PILL_SHOWN_CLASSES);
+            pill.setAttribute('aria-hidden', 'false');
         }
+
+        // 스크롤 위치가 노출 경계를 넘나들 때만 다시 그린다.
+        window.addEventListener(
+            'scroll',
+            () => {
+                const past = window.scrollY > PILL_REVEAL_OFFSET;
+                if (past === scrolledPastReveal) return;
+
+                scrolledPastReveal = past;
+                renderPill();
+            },
+            { passive: true },
+        );
 
         async function pollNewPosts() {
             try {
