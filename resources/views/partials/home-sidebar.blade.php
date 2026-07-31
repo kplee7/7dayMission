@@ -15,11 +15,11 @@
 @endphp
 
 {{--
-    사이드바가 뷰포트보다 길 경우, 스크롤을 따라 함께 올라가다가
-    하단이 화면 아래에 닿는 시점부터 고정된다 (sticky bottom).
-    내용이 화면보다 짧으면 min-h-screen 덕분에 처음부터 제자리에 머문다.
+    사이드바는 화면 높이에 맞춰 항상 같은 자리에 고정된다 (sticky top).
+    타임라인을 아무리 내려도 메뉴와 계정 영역은 그대로 보인다.
+    창이 낮아 내용이 넘칠 때만 사이드바 안에서 스크롤된다.
 --}}
-<aside class="sticky bottom-0 flex min-h-screen w-[30%] shrink-0 flex-col self-start px-3 py-1 xl:px-6">
+<aside class="sticky top-0 flex h-screen w-[30%] shrink-0 flex-col overflow-y-auto px-3 py-1 xl:px-6">
 
     {{-- 1) X 로고 --}}
     <a href="{{ route('home') }}"
